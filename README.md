@@ -75,3 +75,13 @@ python -m procurement_rl.metrics paired outputs/grpo-eval/results.jsonl outputs/
 正式评测使用 `--purpose formal`。所有对照统一初始化、数据、检索器、奖励、解码和预算；先测未训练模型，再测三个算法。配对工具检查题目、语料、verifier 与解码配置一致，以商品家族为单位 bootstrap。仍需检查 manifest 中的初始化来源，不能只根据 checkpoint 名称判断。
 
 每次训练/评测保留配置、代码和数据哈希、依赖版本、起止时间、逐题/逐步日志及失败记录。`--hourly-cost-cny` 填真实整机小时价；未提供时成本记为未知。没有实测结果前不填写提升数字。
+
+## 新增方向：基于开源业务资料的场景
+
+选型与接入设计见 [开源业务场景调研](docs/open_source_scenarios.md)。筛选标准为真实商品、财报、文献、技术支持资料或数据库作为基础，允许人工标注和部分合成。
+
+- **金融检索与计算**：FinQA 起步，DocFinQA 扩展；最容易延续当前 Search-R1 与 IGPO 主线。
+- **购物交互**：WebShop 或中文 ShopSimulator；复用外部商品环境、动作与奖励。
+- **其他候选**：TAT-QA、ConvFinQA、BioASQ、PubMedQA、TechQA、BIRD-SQL。
+
+这些方向目前完成了来源核查与改造设计，**尚未接入训练入口**。上面的安装、CPU 验收与实验命令继续用于原模拟采购场景；新场景需要独立的数据导入、协议、奖励和 IG 目标适配。

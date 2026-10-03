@@ -22,6 +22,7 @@
 | `scripts/check_smoke.py` | 核对真实训练与 checkpoint 重载证据。 |
 | `docs/implementation.md` | 代码阅读路线、算法与上游边界。 |
 | `docs/experiments.md` | 数据与模型准备、基线、三算法及重复实验命令。 |
+| `docs/open_source_scenarios.md` | 新增开源业务场景选型：真实来源、交互环境、奖励、获取入口、许可及待实现的接入方案。 |
 | `configs/` | 学校 1.5B 与 AutoDL 3B 的独立配置。 |
 | `scripts/` | 固定上游下载、Linux 安装、预检、启动。 |
 | `tests/` | 奖励、泄漏、数学、协议与配置等关键检查。 |

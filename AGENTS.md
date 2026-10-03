@@ -16,6 +16,8 @@ Start by reading `docs/STATUS.md`, then `docs/FILE_MAP.md`. Update STATUS after 
 
 ## Working conventions
 
+Scope update from the user on 2026-10-03: preserve the simulated procurement code and README, and add scenarios grounded in public business datasets/environments. Human annotation and partial synthesis are allowed; the underlying material must not be entirely self-generated. Candidate research and integration design are in `docs/open_source_scenarios.md`; the external scenarios are not yet integrated. Do not report the existing procurement CPU checks as validation of an external scenario.
+
 Use package code under `src/procurement_rl`, tests under `tests`, Linux entry scripts under `scripts`, profiles under `configs`. The local development machine is Windows; training targets Linux NVIDIA GPU machines. Keep shell scripts LF. Avoid modifying the user's global Python or CUDA installations.
 
 When referencing modern veRL in explanations, label it `[Modern veRL]`; current implementation is `[Search-R1 bundled veRL]`.

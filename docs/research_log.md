@@ -1,5 +1,15 @@
 # 调研与实施记录
 
+## 2026-10-03 · 新增开源业务场景调研
+
+- **最新用户要求**：原合成采购实现和 README 保留；增加外部业务场景。用户进一步确认人工标注及部分合成都可以，有真实资料基础即可。
+- **来源核查**：[WebShop](https://github.com/princeton-nlp/WebShop) 有真实商品与人工任务，但环境包含随机预算/价格；[ShopSimulator 论文](https://arxiv.org/html/2601.18225v1) 的商品和普通需求有真实/人工基础，画像和用户交互含合成成分。二者都符合当前标准，须如实记录来源。
+- **框架边界**：[shopping-grpo-longhorizon](https://github.com/YYHDBL/shopping-grpo-longhorizon) 当前使用 [Modern veRL] 0.8.0；可参考环境分工，不直接复制其 AgentLoop 到 [Search-R1 bundled veRL]。
+- **设计建议，尚未选定**：[FinQA](https://github.com/czyssrs/FinQA) → [DocFinQA](https://huggingface.co/datasets/kensho/DocFinQA) 最贴近现有检索和短答案 IG；WebShop/ShopSimulator 更接近现成业务交互环境。金融路线需检查 FinQA 与 DocFinQA 的题目继承重叠；购物路线需处理 reward 接受多解与单参考目标 IG 的差异。
+- **其他候选**：TAT-QA、ConvFinQA、BioASQ、PubMedQA、TechQA、BIRD；[AgentGym](https://github.com/WooooDyy/AgentGym) 提供 WebShop 和 BIRD/SQLGym 环境封装，可参考其环境服务接口。规模、来源、许可和获取入口见 [调研正文](open_source_scenarios.md)。
+- **代码核对**：`protocol.py`、`reward.py`、`training/scoring.py` 等绑定报价 ID/采购事实；新数据不能直接通过改 `data_dir` 接入。接入计划已按实际文件列出。
+- **本轮产物和边界**：新增调研文档，追加 README、导航、接手说明与状态；未改训练代码，未下载数据/权重，未跑模型或 GPU。外部场景适配与验证仍待实施。
+
 ## 2026-10-03 · 阶段 01：范围与用户选择
 
 - **用户已确认**：面向 Agentic RL / Post-training 实习，电商采购模拟场景，4—6 周，人民币 2000 元租卡预算。

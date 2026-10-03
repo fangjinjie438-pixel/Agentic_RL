@@ -1,0 +1,73 @@
+# Candidate GPU stack; run preflight and an actual smoke test before calling it validated.
+upstream:
+  data:
+    train_files: data/synthetic/train.parquet
+    val_files: data/synthetic/val.parquet
+    train_data_num: null
+    val_data_num: null
+    max_start_length: 768
+    max_prompt_length: 6144
+    max_response_length: 256
+    max_obs_length: 1024
+    shuffle_train_dataloader: true
+  actor_rollout_ref:
+    hybrid_engine: true
+    model:
+      enable_gradient_checkpointing: true
+      use_remove_padding: true
+    actor:
+      strategy: fsdp
+      use_dynamic_bsz: false
+      state_masking: true
+      use_kl_loss: true
+      kl_loss_coef: 0.001
+      kl_loss_type: low_var_kl
+      entropy_coeff: 0.0
+      ppo_epochs: 1
+      optim:
+        lr: 0.000001
+        lr_warmup_steps_ratio: 0.0
+      fsdp_config:
+        param_offload: true
+        grad_offload: true
+        optimizer_offload: true
+    rollout:
+      name: vllm
+      n: 1
+      temperature: 1.0
+      top_p: 1.0
+      top_k: -1
+      tensor_model_parallel_size: 1
+      dtype: bfloat16
+      gpu_memory_utilization: 0.40
+      enforce_eager: true
+      free_cache_engine: true
+      max_num_batched_tokens: 8192
+      max_num_seqs: 32
+    ref:
+      fsdp_config:
+        param_offload: true
+  algorithm:
+    adv_estimator: grpo
+    gamma: 1.0
+    no_think_rl: false
+  retriever:
+    url: http://127.0.0.1:8000/retrieve
+    topk: 2
+  trainer:
+    nnodes: 1
+    logger: [console]
+    project_name: procurement-search-rl
+    total_epochs: 30
+    default_hdfs_dir: null
+    val_before_train: true
+    val_only: false
+  do_search: true
+procurement:
+  algorithm: grpo
+  data_dir: data/synthetic
+  seed: 42
+  ig_weight: 1.0
+  outcome_weight: 1.0
+  gold_score_micro_batch_size: 1
+  http_timeout: 30.0

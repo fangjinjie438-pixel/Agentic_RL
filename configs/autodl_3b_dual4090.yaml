@@ -1,0 +1,32 @@
+extends: common.yaml
+name: autodl_3b_dual4090
+purpose: Conditional 3B alternative; verify FSDP communication and peak memory first.
+model_min_parameters: 3000000000
+runtime:
+  gpu_count: 2
+  min_vram_gib_per_gpu: 22
+  min_free_vram_gib_per_gpu: 21
+  min_cpu_ram_gib: 96
+upstream:
+  data:
+    train_batch_size: 16
+    val_batch_size: 8
+  actor_rollout_ref:
+    model:
+      path: Qwen/Qwen2.5-3B-Instruct
+    actor:
+      ppo_mini_batch_size: 16
+      ppo_micro_batch_size: 2
+    rollout:
+      n_agent: 4
+      log_prob_micro_batch_size: 2
+      gpu_memory_utilization: 0.30
+      max_num_seqs: 8
+    ref:
+      log_prob_micro_batch_size: 2
+  trainer:
+    n_gpus_per_node: 2
+    total_training_steps: 200
+    save_freq: 50
+    test_freq: 50
+  max_turns: 4

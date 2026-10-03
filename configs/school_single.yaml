@@ -1,0 +1,32 @@
+extends: common.yaml
+name: school_single
+purpose: One A6000 fallback correctness smoke test.
+model_min_parameters: 0
+runtime:
+  gpu_count: 1
+  min_vram_gib_per_gpu: 45
+  min_free_vram_gib_per_gpu: 40
+  min_cpu_ram_gib: 48
+upstream:
+  data:
+    train_batch_size: 2
+    val_batch_size: 2
+    train_data_num: 20
+    val_data_num: 4
+  actor_rollout_ref:
+    model:
+      path: Qwen/Qwen2.5-1.5B-Instruct
+    actor:
+      ppo_mini_batch_size: 2
+      ppo_micro_batch_size: 1
+    rollout:
+      n_agent: 2
+      log_prob_micro_batch_size: 1
+    ref:
+      log_prob_micro_batch_size: 1
+  trainer:
+    n_gpus_per_node: 1
+    total_training_steps: 5
+    save_freq: 5
+    test_freq: 5
+  max_turns: 3

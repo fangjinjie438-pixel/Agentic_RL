@@ -1,0 +1,31 @@
+extends: common.yaml
+name: autodl_3b
+purpose: Main 3B full-parameter experiment on one 80GB Ampere GPU.
+model_min_parameters: 3000000000
+runtime:
+  gpu_count: 1
+  min_vram_gib_per_gpu: 75
+  min_free_vram_gib_per_gpu: 70
+  min_cpu_ram_gib: 96
+upstream:
+  data:
+    train_batch_size: 16
+    val_batch_size: 8
+  actor_rollout_ref:
+    model:
+      path: Qwen/Qwen2.5-3B-Instruct
+    actor:
+      ppo_mini_batch_size: 16
+      ppo_micro_batch_size: 1
+    rollout:
+      n_agent: 4
+      log_prob_micro_batch_size: 1
+      max_num_seqs: 16
+    ref:
+      log_prob_micro_batch_size: 1
+  trainer:
+    n_gpus_per_node: 1
+    total_training_steps: 200
+    save_freq: 50
+    test_freq: 50
+  max_turns: 4
